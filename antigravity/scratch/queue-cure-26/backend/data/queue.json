@@ -1,0 +1,7 @@
+{
+  "currentServing": null,
+  "waitingQueue": [],
+  "completedCount": 2,
+  "avgConsultationTime": 6,
+  "tokenCounter": 3
+}
