@@ -10,6 +10,18 @@
 🌐 Live Application:
 https://tharuns-h2sproject.vercel.app/
 
+## 🏆 Highlights
+
+* ⚡ Real-Time Queue Synchronization
+* 🔊 AI Voice Announcements
+* ⏱ Dynamic Wait-Time Calculation
+* 🏥 Receptionist Dashboard
+* 📱 Public Display Dashboard
+* 🚫 No Page Refresh Required
+
+Queue Cure transforms traditional paper-token systems into a smart, transparent, and accessible clinic queue management platform.
+
+
 ---
 
 ## 📌 The Problem
@@ -81,7 +93,7 @@ Unlike traditional token systems, Queue Cure actively communicates queue progres
 * Call Next Patient
 * Set Consultation Duration
 
-### Patient Waiting Room
+### 📱 Public Display Dashboard
 
 * Current Token Display
 * Tokens Ahead
@@ -102,25 +114,27 @@ No refresh required.
 
 ---
 
-## ⚡ Real-Time Queue Flow
+## ⚡ Real-Time Queue Flow & Socket Event Diagram
 
 Receptionist Dashboard
-
-⬇
-
+│
+▼
 Call Next
+│
+▼
+Backend
+│
+▼
+Socket.IO
+│
+▼
+Public Display Dashboard
+│
+▼
+AI Voice Announcement
 
-⬇
+Every queue update is broadcast instantly to all connected screens without requiring a page refresh.
 
-Queue Updated
-
-⬇
-
-Patient Waiting Room
-
-⬇
-
-Live Update Received
 
 ---
 
@@ -218,12 +232,24 @@ This feature enhances accessibility and improves overall patient flow management
 
 ## 🧠 Edge Cases Considered
 
-* Empty Queue Handling
-* Multiple Receptionists Triggering Actions
-* Network Reconnection
-* Page Refresh Recovery
-* Invalid Patient Entries
+## 📝 Thought Process
 
+The goal of Queue Cure was to eliminate uncertainty in clinic waiting rooms while reducing receptionist workload.
+
+Key Design Decisions:
+
+* Real-time synchronization to ensure all displays remain updated
+* Dynamic wait-time calculation based on consultation duration
+* AI voice announcements to improve accessibility and patient awareness
+* Simple receptionist workflow to minimize operational errors
+
+Challenges Considered:
+
+* Multiple users viewing the queue simultaneously
+* Queue consistency after page refresh
+* Empty queue handling
+* Real-time update delivery
+* Future scalability for multi-clinic environments
 ---
 
 ## 🔮 Future Enhancements
