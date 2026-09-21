@@ -1,0 +1,112 @@
+{
+  "sequence_config": {
+    "sequence_length_timesteps": 200,
+    "estimated_duration_seconds": 4.0,
+    "input_features_count": 21,
+    "feature_composition": "7 Raw (Accel XYZ, Gyro XYZ, Accel Mag) + 14 Rolling Stats (Mean, Variance)"
+  },
+  "session_split": {
+    "train_session": "SESSION-20260917_215707_processed.csv",
+    "test_session": "sensor_data_processed.csv",
+    "excluded_sessions_lacking_target": [
+      "SESSION-20260917_213518_processed.csv",
+      "SESSION-20260917_213549_processed.csv",
+      "SESSION-20260917_214611_processed.csv"
+    ]
+  },
+  "hyperparameters": {
+    "optimizer": "Adam",
+    "initial_learning_rate": 0.0008,
+    "weight_decay": 0.0001,
+    "lr_scheduler": "ReduceLROnPlateau (factor=0.5, patience=5)",
+    "batch_size": 32,
+    "epochs": 35,
+    "random_seed": 42
+  },
+  "model_comparison_results": {
+    "Simple Baseline (MLP)": {
+      "overall_mae_m_s": 0.3907,
+      "overall_rmse_m_s": 0.5156,
+      "overall_mae_km_h": 1.4064,
+      "overall_rmse_km_h": 1.856,
+      "segmented_performance": {
+        "stationary": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        },
+        "dynamic_motion": {
+          "count": 1241,
+          "mae_m_s": 0.3907,
+          "rmse_m_s": 0.5156
+        },
+        "turning": {
+          "count": 710,
+          "mae_m_s": 0.3851,
+          "rmse_m_s": 0.5121
+        },
+        "vibration": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        }
+      }
+    },
+    "LSTM without Attention": {
+      "overall_mae_m_s": 0.3667,
+      "overall_rmse_m_s": 0.4991,
+      "overall_mae_km_h": 1.3201,
+      "overall_rmse_km_h": 1.7967,
+      "segmented_performance": {
+        "stationary": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        },
+        "dynamic_motion": {
+          "count": 1241,
+          "mae_m_s": 0.3667,
+          "rmse_m_s": 0.4991
+        },
+        "turning": {
+          "count": 710,
+          "mae_m_s": 0.3599,
+          "rmse_m_s": 0.4917
+        },
+        "vibration": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        }
+      }
+    },
+    "LSTM with Self-Attention (Paper Model)": {
+      "overall_mae_m_s": 0.3794,
+      "overall_rmse_m_s": 0.5073,
+      "overall_mae_km_h": 1.3657,
+      "overall_rmse_km_h": 1.8262,
+      "segmented_performance": {
+        "stationary": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        },
+        "dynamic_motion": {
+          "count": 1241,
+          "mae_m_s": 0.3794,
+          "rmse_m_s": 0.5073
+        },
+        "turning": {
+          "count": 710,
+          "mae_m_s": 0.3731,
+          "rmse_m_s": 0.5016
+        },
+        "vibration": {
+          "count": 0,
+          "mae_m_s": null,
+          "rmse_m_s": null
+        }
+      }
+    }
+  }
+}

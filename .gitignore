@@ -1,0 +1,18 @@
+# IDE & System Files
+antigravity-browser-profile/
+antigravity/
+config/
+*.db
+*.pb
+*.pbtxt
+*.log
+*.exe
+
+# Dependencies & Cache
+node_modules/
+**/node_modules/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+**/.pytest_cache/
+.DS_Store

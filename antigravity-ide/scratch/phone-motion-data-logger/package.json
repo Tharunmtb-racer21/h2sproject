@@ -1,0 +1,17 @@
+{
+  "name": "phone-motion-data-logger",
+  "version": "1.0.0",
+  "description": "Complete local Wi-Fi real physical phone sensor data logger and CSV recorder",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "setup": "npm install && npm --prefix server install && npm --prefix client install",
+    "server": "npm --prefix server start",
+    "client": "npm --prefix client run dev",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "build": "npm --prefix client run build"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

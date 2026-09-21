@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SIH26168 — Intelligent Dead Reckoning Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="hud-container">
+    
+    <!-- A. HEADER -->
+    <header class="hud-header">
+      <div class="header-left">
+        <div class="isro-logo-mark">🚀 SIH26168</div>
+        <div class="title-wrap">
+          <h1>INTELLIGENT DEAD RECKONING SYSTEM</h1>
+          <span class="sub-badge">RESEARCH PROTOTYPE • AI-ML SEAMLESS NAVIGATION</span>
+        </div>
+      </div>
+
+      <div class="header-center">
+        <div class="session-selector-wrap">
+          <label>DATASET SESSION:</label>
+          <select id="sessionSelect" class="hud-select">
+            <option value="IOVNBD_S3c" selected>IOVNBD_S3c (Held-Out Test • Highway 117 km/h)</option>
+            <option value="IOVNBD_S3a">IOVNBD_S3a (Validation Drive • 87% Accuracy)</option>
+            <option value="IOVNBD_M">IOVNBD_M (Motorway & Roundabouts 102 min)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="header-right">
+        <div id="modeBadge" class="mode-badge replay-mode">REPLAY MODE</div>
+        <div class="mode-badge live-sensor-next-phase" title="Live sensor integration stub">LIVE SENSOR (NEXT PHASE)</div>
+        <div id="systemClock" class="system-clock">--:--:--</div>
+      </div>
+    </header>
+
+    <!-- MAIN DASHBOARD GRID -->
+    <main class="dashboard-grid">
+
+      <!-- LEFT COLUMN: 2D NAVIGATION MAP VIEW -->
+      <section class="panel nav-panel">
+        <div class="panel-header">
+          <h2><span class="dot"></span> 2D LOCAL NAVIGATION VIEW (ENU FRAME)</h2>
+          <div class="nav-legend">
+            <span class="legend-item"><span class="legend-box ref-color"></span> Ground Truth / GNSS</span>
+            <span class="legend-item"><span class="legend-box dr-color"></span> Dead Reckoning (AI)</span>
+            <span class="legend-item"><span class="legend-box outage-color"></span> GNSS Outage Zone</span>
+          </div>
+        </div>
+
+        <div class="canvas-container">
+          <canvas id="navCanvas"></canvas>
+          
+          <!-- Outage Banner Overlay -->
+          <div id="outageBanner" class="outage-banner hidden">
+            <div class="pulse-icon">⚠️</div>
+            <div class="banner-text">
+              <span class="banner-title">GNSS SIGNAL DENIED / OUTAGE SIMULATION</span>
+              <span class="banner-sub">AI VELOCITY + HEADING PROPAGATING 2D TRAJECTORY</span>
+            </div>
+            <div id="outageTimerBadge" class="timer-badge">00.0s</div>
+          </div>
+
+          <!-- Zoom & Center Controls -->
+          <div class="map-controls">
+            <button id="btnZoomIn" class="map-btn" title="Zoom In">+</button>
+            <button id="btnZoomOut" class="map-btn" title="Zoom Out">−</button>
+            <button id="btnRecenter" class="map-btn" title="Recenter Vehicle">🎯</button>
+          </div>
+        </div>
+
+        <!-- Coordinates bar -->
+        <div class="map-footer-telemetry">
+          <div class="coord-item"><span class="label">EAST:</span> <span id="posEastVal" class="num">0.00 m</span></div>
+          <div class="coord-item"><span class="label">NORTH:</span> <span id="posNorthVal" class="num">0.00 m</span></div>
+          <div class="coord-item"><span class="label">DRIFT ERROR:</span> <span id="posErrorVal" class="num text-cyan">0.00 m</span></div>
+          <div class="coord-item"><span class="label">DISTANCE:</span> <span id="distVal" class="num">0.00 m</span></div>
+        </div>
+      </section>
+
+      <!-- RIGHT COLUMN: GAUGES & TELEMETRY -->
+      <section class="side-column">
+        
+        <!-- GAUGES ROW (SPEEDOMETER & COMPASS) -->
+        <div class="gauges-row">
+          
+          <!-- D. SPEEDOMETER -->
+          <div class="panel gauge-card">
+            <div class="card-title">SPEEDOMETER</div>
+            <div class="gauge-wrap">
+              <canvas id="speedGaugeCanvas" width="220" height="150"></canvas>
+              <div class="speed-readout">
+                <span id="speedValue" class="speed-num">0.0</span>
+                <span class="speed-unit">KM/H</span>
+              </div>
+            </div>
+            <div class="gauge-sub-info">
+              <div class="info-row"><span class="label">AI Speed:</span> <span id="aiSpeedVal" class="val text-cyan">0.0 km/h</span></div>
+              <div class="info-row"><span class="label">Ref Speed:</span> <span id="refSpeedVal" class="val text-green">0.0 km/h</span></div>
+              <div class="info-row"><span class="label">Source:</span> <span id="speedSourceVal" class="val text-muted">REFERENCE_OBD</span></div>
+            </div>
+          </div>
+
+          <!-- E. HEADING COMPASS -->
+          <div class="panel gauge-card">
+            <div class="card-title">HEADING COMPASS</div>
+            <div class="gauge-wrap">
+              <canvas id="compassCanvas" width="220" height="150"></canvas>
+              <div class="compass-readout">
+                <span id="headingValue" class="heading-num">000°</span>
+                <span id="cardinalValue" class="cardinal-dir">N</span>
+              </div>
+            </div>
+            <div class="gauge-sub-info">
+              <div class="info-row"><span class="label">Heading:</span> <span id="headingDegVal" class="val text-cyan">0.0°</span></div>
+              <div class="info-row"><span class="label">Yaw Rate:</span> <span id="gyroVal" class="val text-yellow">0.000 rad/s</span></div>
+              <div class="info-row"><span class="label">Source:</span> <span class="val text-muted">Gyro + Pre-outage Course</span></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- C. LIVE TELEMETRY CARD -->
+        <div class="panel telemetry-card">
+          <div class="panel-header">
+            <h2>LIVE TELEMETRY & GNSS STATUS</h2>
+            <div id="gnssStatusBadge" class="status-badge status-available">GNSS AVAILABLE</div>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telem-item">
+              <span class="telem-label">NAVIGATION MODE</span>
+              <span id="navModeVal" class="telem-val text-green">GNSS_LOCKED</span>
+            </div>
+            <div class="telem-item">
+              <span class="telem-label">OUTAGE DURATION</span>
+              <span id="outageDurationVal" class="telem-val">0.0 s</span>
+            </div>
+            <div class="telem-item">
+              <span class="telem-label">ACCELERATION (Z-G)</span>
+              <span id="accelZVal" class="telem-val">9.81 m/s²</span>
+            </div>
+            <div class="telem-item">
+              <span class="telem-label">PLAYBACK TIME</span>
+              <span id="relTimeVal" class="telem-val text-yellow">0.00 s</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- F. CONTROLS PANEL -->
+        <div class="panel controls-card">
+          <div class="panel-header">
+            <h2>PLAYBACK & OUTAGE CONTROLS</h2>
+            <div class="rate-select-wrap">
+              <label>RATE:</label>
+              <button class="rate-btn active" data-rate="1">1×</button>
+              <button class="rate-btn" data-rate="2">2×</button>
+              <button class="rate-btn" data-rate="5">5×</button>
+            </div>
+          </div>
+
+          <!-- Playback Buttons -->
+          <div class="control-btn-group">
+            <button id="btnPlay" class="ctrl-btn btn-primary">▶ PLAY</button>
+            <button id="btnPause" class="ctrl-btn btn-secondary">⏸ PAUSE</button>
+            <button id="btnStep" class="ctrl-btn btn-secondary">⏭ STEP</button>
+            <button id="btnReset" class="ctrl-btn btn-danger">↺ RESET</button>
+          </div>
+
+          <!-- Outage Simulation Controls -->
+          <div class="outage-control-group">
+            <div class="outage-title">SIMULATE GNSS OUTAGE (BLACKOUT):</div>
+            <div class="outage-btn-row">
+              <button id="btnOutageManual" class="outage-btn manual-btn" title="Continuous GPS Outage until manually restored">🚫 CUT GPS (CONTINUOUS)</button>
+              <button id="btnOutage10" class="outage-btn">⚡ 10s</button>
+              <button id="btnOutage30" class="outage-btn">⚡ 30s</button>
+              <button id="btnOutage60" class="outage-btn">⚡ 60s</button>
+              <button id="btnRestore" class="restore-btn">🔄 RESTORE GNSS</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+    </main>
+
+    <!-- LOWER SECTION: BENCHMARKS & ARCHITECTURE -->
+    <div class="lower-grid">
+
+      <!-- H. PERFORMANCE BENCHMARKS PANEL (STRICT VALIDATED NUMBERS) -->
+      <section class="panel metrics-panel">
+        <div class="panel-header">
+          <h2>📊 VERIFIED PERFORMANCE BENCHMARK (IOVNBD_S3c & S3a)</h2>
+          <span class="badge-verified">STRICT SCIENTIFIC AUDIT VERIFIED</span>
+        </div>
+
+        <div class="metrics-content-grid">
+          <!-- Velocity Model Accuracy -->
+          <div class="metric-subcard">
+            <h3>VELOCITY ESTIMATION (IOVNBD_S3c)</h3>
+            <table class="metric-table">
+              <tr><td>Coefficient of Determination (R²)</td><td class="text-green bold">0.9190 (91.9%)</td></tr>
+              <tr><td>Pearson Correlation (r)</td><td class="text-green bold">0.9601</td></tr>
+              <tr><td>Speed RMSE</td><td class="text-cyan bold">2.3505 m/s (8.46 km/h)</td></tr>
+              <tr><td>Speed MAE</td><td class="text-cyan bold">1.6479 m/s (5.93 km/h)</td></tr>
+              <tr><td>Mean Bias</td><td>-0.3108 m/s</td></tr>
+            </table>
+          </div>
+
+          <!-- Position Drift Across Outage Durations -->
+          <div class="metric-subcard">
+            <h3>2D POSITION ERROR BY OUTAGE DURATION</h3>
+            <table class="metric-table">
+              <thead>
+                <tr>
+                  <th>Outage</th>
+                  <th>Avg Travel</th>
+                  <th>AI DR RMSE</th>
+                  <th>Persistence RMSE</th>
+                  <th>Outcome</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>10s Outage</strong></td>
+                  <td>113.1 m</td>
+                  <td>53.71 m</td>
+                  <td>49.60 m</td>
+                  <td class="text-muted">+4.11m (Persistence close)</td>
+                </tr>
+                <tr>
+                  <td><strong>30s Outage</strong></td>
+                  <td>325.8 m</td>
+                  <td>105.52 m</td>
+                  <td>100.42 m</td>
+                  <td class="text-muted">+5.10m (Parity)</td>
+                </tr>
+                <tr>
+                  <td><strong>60s Outage</strong></td>
+                  <td>634.4 m</td>
+                  <td class="text-green bold">131.27 m</td>
+                  <td>214.94 m</td>
+                  <td class="text-green bold">★ -83.67m (38.9% AI Gain)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- I. ARCHITECTURE PIPELINE PANEL -->
+      <section class="panel arch-panel">
+        <div class="panel-header">
+          <h2>📐 END-TO-END SYSTEM PIPELINE</h2>
+        </div>
+        <div class="pipeline-flow">
+          <div class="pipe-node active-node">
+            <span class="pipe-step">01</span>
+            <span class="pipe-title">Smartphone IMU</span>
+            <span class="pipe-sub">50 Hz Accel / Gyro</span>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-node active-node">
+            <span class="pipe-step">02</span>
+            <span class="pipe-title">Alignment</span>
+            <span class="pipe-sub">Euler Auto-Level</span>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-node active-node">
+            <span class="pipe-step">03</span>
+            <span class="pipe-title">AI Velocity-Delta</span>
+            <span class="pipe-sub">Exp_5 LSTM (R² 0.92)</span>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-node active-node">
+            <span class="pipe-step">04</span>
+            <span class="pipe-title">2D Dead Reckon</span>
+            <span class="pipe-sub">NHC + ZUPT Filter</span>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-node active-node">
+            <span class="pipe-step">05</span>
+            <span class="pipe-title">Sigmoid Handover</span>
+            <span class="pipe-sub">Seamless GNSS Fusion</span>
+          </div>
+          <div class="pipe-arrow">➜</div>
+          <div class="pipe-node future-node">
+            <span class="pipe-step">06</span>
+            <span class="pipe-title">Map Matcher</span>
+            <span class="pipe-sub">NEXT PHASE</span>
+          </div>
+        </div>
+      </section>
+
+    </div>
+
+  </div>
+
+  <!-- Scripts -->
+  <script src="gauge_speedometer.js"></script>
+  <script src="compass_dial.js"></script>
+  <script src="map_renderer.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

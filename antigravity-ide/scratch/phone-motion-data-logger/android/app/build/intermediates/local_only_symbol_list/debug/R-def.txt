@@ -1,0 +1,21 @@
+R_DEF: Internal format may change without notice
+local
+id btnFreq100Hz
+id btnFreq10Hz
+id btnFreq1Hz
+id btnFreq50Hz
+id btnStartAll
+id btnStartCellular
+id btnStartGnss
+id btnStartSensor
+id tvCellRecordsCount
+id tvCellularStatus
+id tvGnssFixesCount
+id tvGnssStatus
+id tvNeighborCellsDetails
+id tvSatelliteRecordsCount
+id tvSelectedFrequency
+id tvSensorEventsCount
+id tvSessionId
+layout activity_main
+string app_name

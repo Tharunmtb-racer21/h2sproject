@@ -1,0 +1,50 @@
+[
+  {
+    "session_id": "sensor_data",
+    "alignment": {
+      "pitch_deg": -0.88,
+      "roll_deg": -1.87,
+      "shift_alerts": 19
+    },
+    "disturbance": {
+      "flagged_frames": 3154
+    },
+    "outage_simulation": {
+      "start_s": 12.806000000000001,
+      "duration_s": 29.989999999999995
+    },
+    "dead_reckoning_metrics": {
+      "error_mean_m": 3133.174,
+      "error_rmse_m": 4077.661,
+      "error_max_m": 5309.267,
+      "drift_rate_pct": 177040.416
+    },
+    "fusion": {
+      "handover_frames": 200
+    }
+  },
+  {
+    "session_id": "SESSION-20260917_215707",
+    "alignment": {
+      "pitch_deg": -0.8,
+      "roll_deg": 1.27,
+      "shift_alerts": 16
+    },
+    "disturbance": {
+      "flagged_frames": 1465
+    },
+    "outage_simulation": {
+      "start_s": 6.166,
+      "duration_s": 15.409999999999998
+    },
+    "dead_reckoning_metrics": {
+      "error_mean_m": 10.388,
+      "error_rmse_m": 11.16,
+      "error_max_m": 12.702,
+      "drift_rate_pct": 788.21
+    },
+    "fusion": {
+      "handover_frames": 200
+    }
+  }
+]

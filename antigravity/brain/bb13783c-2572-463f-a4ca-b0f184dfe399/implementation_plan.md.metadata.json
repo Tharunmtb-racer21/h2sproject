@@ -1,6 +1,0 @@
-{
-  "summary":  "Updated implementation plan with options for deploying the Queue Cure '26 system on Vercel. Outlines the architectural limitations of WebSockets on Vercel and proposes two paths: Split Deployment (Frontend on Vercel, Backend on Render/Railway) or Serverless Migration (Firebase/Supabase Realtime).",
-  "updatedAt":  "2026-06-14T14:51:59.042641700Z",
-  "requestFeedback":  true,
-  "userFacing":  true
-}

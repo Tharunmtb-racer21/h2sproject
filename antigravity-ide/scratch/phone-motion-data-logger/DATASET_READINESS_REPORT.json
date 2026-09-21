@@ -1,0 +1,141 @@
+[
+  {
+    "file_name": "SESSION-20260917_213518.csv",
+    "file_size_bytes": 227942,
+    "total_rows": 1632,
+    "duration_seconds": 22.41,
+    "available_sensors": [
+      "Accelerometer",
+      "Gyroscope",
+      "Magnetometer",
+      "GNSS",
+      "Cellular Network"
+    ],
+    "sampling_frequency_hz": 100.0,
+    "gnss_availability": false,
+    "valid_gnss_samples_count": 0,
+    "valid_speed_range_m_s": {
+      "min": null,
+      "max": null,
+      "mean": null
+    },
+    "stationary_samples_count": 0,
+    "moving_samples_count": 0,
+    "suitable_for_vehicle_speed_model_training": false,
+    "suitable_for_navigation_evaluation": false,
+    "audit_notes": [
+      "Indoor recording / GNSS denied. Missing ground-truth velocity target."
+    ]
+  },
+  {
+    "file_name": "SESSION-20260917_213549.csv",
+    "file_size_bytes": 1170504,
+    "total_rows": 8097,
+    "duration_seconds": 621.06,
+    "available_sensors": [
+      "Accelerometer",
+      "Gyroscope",
+      "Magnetometer",
+      "GNSS",
+      "Cellular Network"
+    ],
+    "sampling_frequency_hz": 100.0,
+    "gnss_availability": false,
+    "valid_gnss_samples_count": 0,
+    "valid_speed_range_m_s": {
+      "min": null,
+      "max": null,
+      "mean": null
+    },
+    "stationary_samples_count": 0,
+    "moving_samples_count": 0,
+    "suitable_for_vehicle_speed_model_training": false,
+    "suitable_for_navigation_evaluation": false,
+    "audit_notes": [
+      "Indoor recording / GNSS denied. Missing ground-truth velocity target."
+    ]
+  },
+  {
+    "file_name": "SESSION-20260917_214611.csv",
+    "file_size_bytes": 440099,
+    "total_rows": 3007,
+    "duration_seconds": 96.2,
+    "available_sensors": [
+      "Accelerometer",
+      "Gyroscope",
+      "Magnetometer",
+      "GNSS",
+      "Cellular Network"
+    ],
+    "sampling_frequency_hz": 100.0,
+    "gnss_availability": false,
+    "valid_gnss_samples_count": 0,
+    "valid_speed_range_m_s": {
+      "min": null,
+      "max": null,
+      "mean": null
+    },
+    "stationary_samples_count": 0,
+    "moving_samples_count": 0,
+    "suitable_for_vehicle_speed_model_training": false,
+    "suitable_for_navigation_evaluation": false,
+    "audit_notes": [
+      "Indoor recording / GNSS denied. Missing ground-truth velocity target."
+    ]
+  },
+  {
+    "file_name": "SESSION-20260917_215707.csv",
+    "file_size_bytes": 146361,
+    "total_rows": 1004,
+    "duration_seconds": 30.83,
+    "available_sensors": [
+      "Accelerometer",
+      "Gyroscope",
+      "Magnetometer",
+      "GNSS",
+      "Cellular Network"
+    ],
+    "sampling_frequency_hz": 100.0,
+    "gnss_availability": true,
+    "valid_gnss_samples_count": 2656,
+    "valid_speed_range_m_s": {
+      "min": 0.0,
+      "max": 0.0,
+      "mean": 0.0
+    },
+    "stationary_samples_count": 2656,
+    "moving_samples_count": 0,
+    "suitable_for_vehicle_speed_model_training": false,
+    "suitable_for_navigation_evaluation": false,
+    "audit_notes": [
+      "Stationary test only (vehicle not moving)."
+    ]
+  },
+  {
+    "file_name": "sensor_data.csv",
+    "file_size_bytes": 52281,
+    "total_rows": 496,
+    "duration_seconds": 64.03,
+    "available_sensors": [
+      "Accelerometer",
+      "Gyroscope",
+      "Magnetometer",
+      "GNSS"
+    ],
+    "sampling_frequency_hz": 100.0,
+    "gnss_availability": true,
+    "valid_gnss_samples_count": 6404,
+    "valid_speed_range_m_s": {
+      "min": 0.09,
+      "max": 1.2,
+      "mean": 0.398
+    },
+    "stationary_samples_count": 0,
+    "moving_samples_count": 6404,
+    "suitable_for_vehicle_speed_model_training": true,
+    "suitable_for_navigation_evaluation": true,
+    "audit_notes": [
+      "Low-speed creeping motion (<4.3 km/h). Missing highway/urban vehicle driving dynamics."
+    ]
+  }
+]

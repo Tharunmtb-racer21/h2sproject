@@ -1,0 +1,4 @@
+outage_duration_s,num_outages_tested,avg_distance_traveled_m,ai_mean_position_error_m,ai_rmse_position_error_m,ai_p95_position_error_m,ai_max_position_error_m,ai_drift_rate_pct,persist_mean_position_error_m,persist_rmse_position_error_m,persist_drift_rate_pct
+10,229,113.11,41.71,53.71,113.14,196.56,57.72,39.54,49.6,53.95
+30,237,325.77,87.61,105.52,188.77,345.64,38.88,85.15,100.42,37.47
+60,241,634.44,113.08,131.27,241.18,380.81,23.95,172.45,214.94,43.09

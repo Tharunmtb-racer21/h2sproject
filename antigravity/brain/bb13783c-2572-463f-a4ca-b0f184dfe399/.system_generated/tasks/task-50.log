@@ -1,9 +1,0 @@
-
-> queue-cure-backend@1.0.0 start
-> node src/server.js
-
-Queue Cure '26 Server listening on port 5000
-Client connected: CPlP4uqCqtSbjpz0AAAC
-Client connected: wW5ZtQMZva80yeWFAAAF
-Client disconnected: wW5ZtQMZva80yeWFAAAF
-Client connected: x7hfAGyECHnevUvEAAAI

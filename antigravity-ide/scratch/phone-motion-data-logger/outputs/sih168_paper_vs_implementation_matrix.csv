@@ -1,0 +1,16 @@
+Paper Requirement,Our Implementation,Evidence Path,Status,Gap
+6-DOF IMU (Accel + Gyro + Accel Norm),21-D Feature extraction (7 raw + 14 rolling statistical moments),paper_baseline/feature_extraction.py,VERIFIED,None (Exact 21-D formulation reproduced)
+Magnetometer Exclusion for Speed,Excluded from neural speed network (IMU only),paper_baseline/feature_extraction.py,VERIFIED,None
+Sampling Frequency Grid (50 Hz),Unified 50 Hz temporal interpolation grid (dt=0.02s),paper_baseline/dataset.py,VERIFIED,None
+Sequence Window Length (T=200 @ 50 Hz = 4.0s),Sequence length 200 windows at 50 Hz,paper_baseline/models.py,VERIFIED,None
+Neural Architecture (2-Layer Stacked LSTM),2-Layer LSTM with 217729 parameters (LSTMNoAttention),paper_baseline/models.py,VERIFIED,Self-attention removed after Stage 2 proving no benefit
+Target Formulation (Absolute Speed in Paper),Velocity-Delta formulation (Delta_v = v_end - v_start),outputs/Exp_5_LSTMNoAttention_DeltaV/exp5_final_report.md,VERIFIED IMPROVEMENT,Paper experienced dynamic range collapse; Exp_5 resolved it
+Ground-Truth Speed Benchmark,OBD2/VBOX Vehicle Reference Velocity from IOVNBD Benchmark,paper_baseline/GROUND_TRUTH_EVIDENCE.md,VERIFIED,None
+Phone Mounting Orientation Invariance,Fixed Dashboard Mount in IOVNBD dataset (near-zero pitch/roll),sih_modules/alignment.py,PARTIAL,Dynamic reorientation during trip not evaluated on diverse physical mounts
+Coordinate Transformation (Body to Navigation),Static gravity pitch/roll leveling implemented in sih_modules,sih_modules/alignment.py,PARTIAL,Needs dynamic integration with live trajectory propagation
+Heading Estimation (Direction of Travel),Dataset attitude quaternion logged; basic gyro yaw integration in sih_modules,sih_modules/dead_reckoning.py,PARTIAL,Full EKF/ESKF heading filter with compass/GNSS course fusion missing in neural loop
+Dead-Reckoning 2D Position Propagation,2D Kinematic Integrator with Non-Holonomic Constraints,sih_modules/dead_reckoning.py,PARTIAL,Evaluated separately in sih_modules; not yet linked to Exp_5 neural predictions
+Outage Position Error Metrics (10s/30s/60s),Velocity RMSE/MAE measured; Metre-level position error not tabulated by outage duration,outputs/final_test_evaluation/final_test_report.md,MISSING EVIDENCE,Need standardized 10s 30s 60s position error table in metres
+GNSS/INS Seamless Handover,Sigmoid temporal blending upon signal restoration (T_blend=2.0s),sih_modules/fusion_engine.py,PARTIAL,Implemented in sih_modules prototype; not connected to live Android APK
+Zero-Velocity Update (ZUPT),Vibration threshold standstill detector proposed,sih_modules/disturbance.py,PROPOSED,Not yet integrated into Exp_5 sequential integration pipeline
+Edge Deployment (Android Real-Time),Android Kotlin Logger App collecting CSV data,android/app/src/main/java/com/isro/sih/deadreckoning/,PARTIAL,TFLite/ONNX inference engine not compiled inside Android APK

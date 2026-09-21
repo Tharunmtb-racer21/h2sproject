@@ -1,0 +1,16 @@
+{
+  "name": "phone-motion-data-logger-server",
+  "version": "1.0.0",
+  "description": "Backend server for Phone Motion Data Logger",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node generateCerts.js && node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "selfsigned": "^2.4.1",
+    "ws": "^8.17.1"
+  }
+}

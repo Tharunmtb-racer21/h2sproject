@@ -1,0 +1,38 @@
+Fixed Seed: 42
+Batch Shape X: torch.Size([32, 200, 21]) | Batch Shape y: torch.Size([32, 1])
+Target Raw  - Mean: 8.2951 m/s | Std: 6.0370 m/s | Min: 0.0050 | Max: 20.0243
+Target Std  - Mean: -0.0030     | Std: 1.0938     | Min: -1.5051 | Max: 2.1221
+
+==========================================================================
+ Model Architecture: LSTMSelfAttention (Fresh In-Memory Instance)
+==========================================================================
+Metric / Layer                   | Case A (Raw Target m/s)   | Case B (Standardized Target)
+----------------------------------------------------------------------------------------
+Initial Loss (MSE)               | 104.167915                | 1.161060                 
+Gradients All Finite?            | True                      | True                     
+Output Bias Grad Norm            | 16.595350                 | 0.001018                 
+Encoder Input Weight Grad Norm   | 0.580991                  | 0.005852                 
+Attention Query Weight Grad Norm | 0.000006                  | 0.000000                 
+Ratio (Bias Grad / Encoder Grad) | 28.5638                   | 0.1740                   
+
+==========================================================================
+ Model Architecture: LSTMNoAttention (Fresh In-Memory Instance)
+==========================================================================
+Metric / Layer                   | Case A (Raw Target m/s)   | Case B (Standardized Target)
+----------------------------------------------------------------------------------------
+Initial Loss (MSE)               | 105.550339                | 1.161165                 
+Gradients All Finite?            | True                      | True                     
+Output Bias Grad Norm            | 16.765667                 | 0.169298                 
+Encoder Input Weight Grad Norm   | 1.074252                  | 0.015951                 
+Ratio (Bias Grad / Encoder Grad) | 15.6068                   | 10.6133                  
+
+==========================================================================
+ Model Architecture: SimpleBaselineMLP (Fresh In-Memory Instance)
+==========================================================================
+Metric / Layer                   | Case A (Raw Target m/s)   | Case B (Standardized Target)
+----------------------------------------------------------------------------------------
+Initial Loss (MSE)               | 106.732994                | 1.179383                 
+Gradients All Finite?            | True                      | True                     
+Output Bias Grad Norm            | 16.905422                 | 0.309051                 
+Encoder Input Weight Grad Norm   | 4.127298                  | 0.113710                 
+Ratio (Bias Grad / Encoder Grad) | 4.0960                    | 2.7179                   

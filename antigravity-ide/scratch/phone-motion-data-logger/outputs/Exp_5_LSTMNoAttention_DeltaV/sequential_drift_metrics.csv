@@ -1,0 +1,2 @@
+sequential_rmse_ms,sequential_rmse_kmh,sequential_mae_ms,sequential_mae_kmh,final_drift_error_ms,final_drift_error_kmh,max_drift_error_ms,max_drift_error_kmh
+12.074395179748535,43.46782264709473,10.456310272216797,37.64271697998047,-11.138484954833984,-40.09854583740235,27.226943969726562,98.01699829101562
