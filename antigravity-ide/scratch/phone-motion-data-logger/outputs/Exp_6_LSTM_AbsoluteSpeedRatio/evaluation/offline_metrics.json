@@ -1,0 +1,25 @@
+{
+  "model_name": "Exp_6_LSTM_AbsoluteSpeedRatio",
+  "test_session": "IOVNBD_S3c",
+  "best_train_mse": 0.703976823663225,
+  "best_val_mse": 0.5280769197867275,
+  "total_windows": 7397,
+  "ratio_prediction_range": [
+    0.8809499144554138,
+    1.6592955589294434
+  ],
+  "out_of_range_frequency": 0,
+  "mean_absolute_ratio_error": 0.5244314670562744,
+  "ai_speed_mae_ms": 4.267395146914675,
+  "ai_speed_rmse_ms": 5.888260574530851,
+  "persistence_speed_mae_ms": 3.787714689138239,
+  "persistence_speed_rmse_ms": 5.384311167303913,
+  "low_speed_mae_ms": {
+    "ai_ratio": 6.4017106238377295,
+    "persistence": 5.83017571884984
+  },
+  "dynamic_speed_mae_ms": {
+    "ai_ratio": 3.95706342922642,
+    "persistence": 3.490738704793366
+  }
+}

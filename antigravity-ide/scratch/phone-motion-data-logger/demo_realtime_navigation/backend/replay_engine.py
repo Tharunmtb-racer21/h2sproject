@@ -90,6 +90,12 @@ class ReplayEngine:
         self.checkpoint_epoch = 1
         self._load_pytorch_model()
 
+        # Model V2 (Bounded Absolute Speed Ratio r_t = v_t / v_anchor)
+        self.speed_mode = "PERSISTENCE_PRODUCTION" # PERSISTENCE_PRODUCTION, AI_RATIO_DIAGNOSTIC, DELTA_V_DIAGNOSTIC, REFERENCE_DIAGNOSTIC
+        self.model_v2 = None
+        self.model_v2_loaded = False
+        self._load_model_v2()
+
         # Load default session
         self.load_session("IOVNBD_S3c")
 
@@ -106,10 +112,29 @@ class ReplayEngine:
                 self.mu_delta_v = float(ckpt.get("mu_delta_v", 0.001914))
                 self.std_delta_v = float(ckpt.get("std_delta_v", 2.440741))
                 self.checkpoint_epoch = int(ckpt.get("epoch", 1))
-                print(f"[OK] PyTorch Neural Model initialized: Epoch={self.checkpoint_epoch}, mu={self.mu_delta_v:.4f}, std={self.std_delta_v:.4f}")
+                print(f"[OK] PyTorch Neural Model V1 initialized: Epoch={self.checkpoint_epoch}, mu={self.mu_delta_v:.4f}, std={self.std_delta_v:.4f}")
         except Exception as e:
             print(f"[INFO] PyTorch model load notice: {e}")
             self.ai_model_loaded = False
+
+    def _load_model_v2(self):
+        """Load trained Exp_6 PyTorch Model V2 (Bounded Speed Ratio) checkpoint."""
+        try:
+            base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+            v2_dir = os.path.join(base_dir, "outputs", "Exp_6_LSTM_AbsoluteSpeedRatio")
+            v2_ckpt_path = os.path.join(v2_dir, "best_model.pt")
+            
+            if os.path.exists(v2_ckpt_path):
+                from paper_baseline.train_exp6 import LSTMAbsoluteSpeedRatio
+                ckpt = torch.load(v2_ckpt_path, map_location="cpu", weights_only=False)
+                self.model_v2 = LSTMAbsoluteSpeedRatio(input_dim=21, hidden_dim=128, num_layers=2)
+                self.model_v2.load_state_dict(ckpt["model_state_dict"])
+                self.model_v2.eval()
+                self.model_v2_loaded = True
+                print(f"[OK] Model V2 (Bounded Speed Ratio) initialized successfully.")
+        except Exception as e:
+            print(f"[INFO] Model V2 load notice: {e}")
+            self.model_v2_loaded = False
 
     def load_session(self, session_id):
         """Load, prepare, and extract 21 IMU features for a benchmark session."""
@@ -211,6 +236,28 @@ class ReplayEngine:
             "window_shape": list(tensor_win.shape),
         }
         return delta_v_mps
+
+    def infer_neural_speed_ratio(self, current_idx, window_len=200):
+        """
+        Execute forward pass on Model V2 to predict bounded speed ratio r_pred in [0.0, 3.0].
+        Does NOT accumulate recursively or depend on future ground truth.
+        """
+        if not self.model_v2_loaded or self.features_matrix is None:
+            return 1.0
+
+        start_idx = max(0, current_idx - window_len + 1)
+        win = self.features_matrix[start_idx : current_idx + 1]
+
+        if len(win) < window_len:
+            pad = np.repeat(win[:1], window_len - len(win), axis=0)
+            win = np.vstack([pad, win])
+
+        tensor_win = torch.tensor(win, dtype=torch.float32).unsqueeze(0)
+        
+        with torch.no_grad():
+            r_pred = self.model_v2(tensor_win).item()
+
+        return float(np.clip(r_pred, 0.0, 3.0))
 
     def reset_playback(self):
         """Reset replay pointer to beginning."""
@@ -351,20 +398,36 @@ class ReplayEngine:
             ai_speed_mps = ref_speed_mps
             ai_speed_kmh = ref_speed_kmh
         else:
-            # Under GNSS OUTAGE or BLENDING: Execute actual PyTorch neural delta-v inference!
-            pred_delta_v = self.infer_neural_delta_v(self.current_index, window_len=200)
-
+            # Under GNSS OUTAGE or BLENDING: Compute speed according to active speed_mode
             dt_step = 0.1
-            v_anchor = self.outage_controller.anchor_speed_mps
+            v_anchor = float(self.outage_controller.anchor_speed_mps)
+            safe_anchor = max(v_anchor, 1.0) # Low-speed / zero denominator safeguard
             outage_elapsed = self.outage_controller.current_outage_elapsed_s
 
-            # 1. Production Velocity Baseline: Constant-Speed Persistence + EKF / ZUPT
-            # AI Delta-V model inference executed for diagnostic logging; production speed uses anchor persistence
-            v_reconstructed = float(v_anchor)
+            # Diagnostic inferences (calculated for logging/auditing)
+            pred_delta_v = self.infer_neural_delta_v(self.current_index, window_len=200)
+            r_pred = self.infer_neural_speed_ratio(self.current_index, window_len=200)
+
+            # Select target velocity based on self.speed_mode
+            if self.speed_mode == "PERSISTENCE_PRODUCTION":
+                v_target = v_anchor
+                displayed_speed_source = "PERSISTENCE_PRODUCTION (Anchor Speed + Gyro Kinematics + ZUPT)"
+            elif self.speed_mode == "AI_RATIO_DIAGNOSTIC":
+                v_target = r_pred * safe_anchor
+                displayed_speed_source = f"AI_RATIO_DIAGNOSTIC (Model V2 r_pred={r_pred:.3f} * v_anchor={safe_anchor:.2f} m/s)"
+            elif self.speed_mode == "DELTA_V_DIAGNOSTIC":
+                v_target = max(0.0, v_anchor + pred_delta_v)
+                displayed_speed_source = f"DELTA_V_DIAGNOSTIC (Legacy Model V1 delta_v={pred_delta_v:.3f} m/s)"
+            elif self.speed_mode == "REFERENCE_DIAGNOSTIC":
+                v_target = float(ref_speed_mps)
+                displayed_speed_source = "REFERENCE_DIAGNOSTIC (Ground Truth - EVAL ONLY)"
+            else:
+                v_target = v_anchor
+                displayed_speed_source = "PERSISTENCE_PRODUCTION (Fallback Baseline)"
 
             # EKF Velocity Smoothing with forward acceleration
             a_clamped = float(np.clip(accel_x, -4.0, 4.0))
-            v_fused = self.ekf.step(a_forward=a_clamped, v_ai_pred=v_reconstructed, dt=dt_step)
+            v_fused = self.ekf.step(a_forward=a_clamped, v_ai_pred=v_target, dt=dt_step)
             v_reconstructed = float(np.clip(v_fused, 0.0, self.pre_outage_speed_cap))
 
             # 2. Pure Physical IMU Multi-Signal ZUPT (Zero velocity leakage)
@@ -396,7 +459,7 @@ class ReplayEngine:
             # 4. Non-Holonomic Constraint (NHC) propagation & step update
             dr_state = self.nav_core.propagate_step(
                 speed_mps=v_reconstructed,
-                heading_deg=None,
+                heading_deg=ref_heading_deg if self.speed_mode == "REFERENCE_DIAGNOSTIC" else None,
                 dt=dt_step
             )
             
@@ -413,8 +476,7 @@ class ReplayEngine:
             nav_mode = "AI_DEAD_RECKONING" if outage_status["outage_active"] else "GNSS_RESTORE_BLENDING"
             displayed_speed_mps = v_reconstructed
             displayed_speed_kmh = v_reconstructed * 3.6
-            displayed_speed_source = "PERSISTENCE_ANCHOR (Last GNSS Speed + Gyro Kinematics + ZUPT)"
-            ai_speed_mps = max(0.0, v_anchor + pred_delta_v)
+            ai_speed_mps = r_pred * safe_anchor
             ai_speed_kmh = ai_speed_mps * 3.6
 
         # Append to live DR trail
