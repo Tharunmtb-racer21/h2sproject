@@ -1,0 +1,27 @@
+{
+  "standstill_outage": {
+    "v_anchor_mps": 0.0780555555555555,
+    "false_movement_m": 1.8627,
+    "speed_mae_ms": 0.0803,
+    "max_predicted_speed_ms": 1.37,
+    "ratio_min_max": [
+      1.1307,
+      1.1971
+    ],
+    "zupt_override_success": false
+  },
+  "crawling_anchor_outage": {
+    "v_anchor_mps": 0.98,
+    "safe_anchor_mps": 1.0,
+    "speed_mae_ms": 0.1302,
+    "ratio_range": [
+      1.1352,
+      1.193
+    ],
+    "unbounded_spike_prevented": true
+  },
+  "dynamic_regimes": {
+    "high_accel_step_count": 1795,
+    "high_decel_step_count": 2035
+  }
+}
