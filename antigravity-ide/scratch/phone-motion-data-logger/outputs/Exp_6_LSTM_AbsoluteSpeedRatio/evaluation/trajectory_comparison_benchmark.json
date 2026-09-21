@@ -10,20 +10,39 @@
     "speed_mae_ms": 0.9897,
     "speed_rmse_ms": 1.1017,
     "heading_mae_deg": 2.2,
-    "heading_rmse_deg": 3.24
+    "heading_rmse_deg": 3.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 10.0,
     "steps_evaluated": 100,
-    "final_position_error_m": 2.44,
-    "max_position_error_m": 70.4,
-    "mean_position_error_m": 33.32,
-    "speed_mae_ms": 0.794,
-    "speed_rmse_ms": 0.9962,
+    "final_position_error_m": 4.53,
+    "max_position_error_m": 72.62,
+    "mean_position_error_m": 34.71,
+    "speed_mae_ms": 0.7319,
+    "speed_rmse_ms": 0.9614,
     "heading_mae_deg": 2.2,
-    "heading_rmse_deg": 3.24
+    "heading_rmse_deg": 3.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3c",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 10.0,
+    "steps_evaluated": 100,
+    "final_position_error_m": 4.34,
+    "max_position_error_m": 72.61,
+    "mean_position_error_m": 34.7,
+    "speed_mae_ms": 0.7129,
+    "speed_rmse_ms": 0.9309,
+    "heading_mae_deg": 2.2,
+    "heading_rmse_deg": 3.24,
+    "adaptive_fallback_count": 13,
+    "adaptive_ai_count": 87
   },
   {
     "session": "IOVNBD_S3c",
@@ -36,7 +55,9 @@
     "speed_mae_ms": 1.443,
     "speed_rmse_ms": 1.5518,
     "heading_mae_deg": 2.2,
-    "heading_rmse_deg": 3.24
+    "heading_rmse_deg": 3.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -49,7 +70,9 @@
     "speed_mae_ms": 0.6273,
     "speed_rmse_ms": 0.8591,
     "heading_mae_deg": 0.66,
-    "heading_rmse_deg": 0.84
+    "heading_rmse_deg": 0.84,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -62,20 +85,39 @@
     "speed_mae_ms": 4.1707,
     "speed_rmse_ms": 5.1551,
     "heading_mae_deg": 4.4,
-    "heading_rmse_deg": 5.24
+    "heading_rmse_deg": 5.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 30.0,
     "steps_evaluated": 300,
-    "final_position_error_m": 43.51,
-    "max_position_error_m": 70.4,
-    "mean_position_error_m": 34.48,
-    "speed_mae_ms": 3.4406,
-    "speed_rmse_ms": 4.2509,
+    "final_position_error_m": 29.58,
+    "max_position_error_m": 77.41,
+    "mean_position_error_m": 37.53,
+    "speed_mae_ms": 3.0011,
+    "speed_rmse_ms": 3.6635,
     "heading_mae_deg": 4.4,
-    "heading_rmse_deg": 5.24
+    "heading_rmse_deg": 5.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3c",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 30.0,
+    "steps_evaluated": 300,
+    "final_position_error_m": 33.24,
+    "max_position_error_m": 72.61,
+    "mean_position_error_m": 35.76,
+    "speed_mae_ms": 2.9004,
+    "speed_rmse_ms": 3.5897,
+    "heading_mae_deg": 4.4,
+    "heading_rmse_deg": 5.24,
+    "adaptive_fallback_count": 48,
+    "adaptive_ai_count": 252
   },
   {
     "session": "IOVNBD_S3c",
@@ -88,7 +130,9 @@
     "speed_mae_ms": 4.2554,
     "speed_rmse_ms": 5.1356,
     "heading_mae_deg": 4.4,
-    "heading_rmse_deg": 5.24
+    "heading_rmse_deg": 5.24,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -101,7 +145,9 @@
     "speed_mae_ms": 0.8216,
     "speed_rmse_ms": 1.0423,
     "heading_mae_deg": 0.82,
-    "heading_rmse_deg": 1.14
+    "heading_rmse_deg": 1.14,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -114,20 +160,39 @@
     "speed_mae_ms": 6.275,
     "speed_rmse_ms": 6.9779,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.17
+    "heading_rmse_deg": 5.17,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 60.0,
     "steps_evaluated": 600,
-    "final_position_error_m": 218.4,
-    "max_position_error_m": 265.48,
-    "mean_position_error_m": 83.45,
-    "speed_mae_ms": 5.5351,
-    "speed_rmse_ms": 6.2052,
+    "final_position_error_m": 182.89,
+    "max_position_error_m": 233.76,
+    "mean_position_error_m": 73.73,
+    "speed_mae_ms": 4.9852,
+    "speed_rmse_ms": 5.605,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.17
+    "heading_rmse_deg": 5.17,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3c",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 60.0,
+    "steps_evaluated": 600,
+    "final_position_error_m": 187.37,
+    "max_position_error_m": 238.21,
+    "mean_position_error_m": 74.58,
+    "speed_mae_ms": 4.9338,
+    "speed_rmse_ms": 5.5797,
+    "heading_mae_deg": 4.69,
+    "heading_rmse_deg": 5.17,
+    "adaptive_fallback_count": 48,
+    "adaptive_ai_count": 552
   },
   {
     "session": "IOVNBD_S3c",
@@ -140,7 +205,9 @@
     "speed_mae_ms": 6.4383,
     "speed_rmse_ms": 7.1192,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.17
+    "heading_rmse_deg": 5.17,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -153,7 +220,9 @@
     "speed_mae_ms": 0.5268,
     "speed_rmse_ms": 0.7957,
     "heading_mae_deg": 0.6,
-    "heading_rmse_deg": 0.99
+    "heading_rmse_deg": 0.99,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -166,20 +235,39 @@
     "speed_mae_ms": 5.9393,
     "speed_rmse_ms": 6.8159,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.28
+    "heading_rmse_deg": 5.28,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 120.0,
     "steps_evaluated": 1200,
-    "final_position_error_m": 470.09,
-    "max_position_error_m": 492.54,
-    "mean_position_error_m": 225.69,
-    "speed_mae_ms": 5.1791,
-    "speed_rmse_ms": 6.0002,
+    "final_position_error_m": 404.91,
+    "max_position_error_m": 432.11,
+    "mean_position_error_m": 195.21,
+    "speed_mae_ms": 4.7597,
+    "speed_rmse_ms": 5.5475,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.28
+    "heading_rmse_deg": 5.28,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3c",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 120.0,
+    "steps_evaluated": 1200,
+    "final_position_error_m": 420.81,
+    "max_position_error_m": 444.36,
+    "mean_position_error_m": 201.11,
+    "speed_mae_ms": 4.7502,
+    "speed_rmse_ms": 5.5362,
+    "heading_mae_deg": 4.69,
+    "heading_rmse_deg": 5.28,
+    "adaptive_fallback_count": 139,
+    "adaptive_ai_count": 1061
   },
   {
     "session": "IOVNBD_S3c",
@@ -192,7 +280,9 @@
     "speed_mae_ms": 6.0437,
     "speed_rmse_ms": 6.898,
     "heading_mae_deg": 4.69,
-    "heading_rmse_deg": 5.28
+    "heading_rmse_deg": 5.28,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3c",
@@ -205,7 +295,9 @@
     "speed_mae_ms": 0.4459,
     "speed_rmse_ms": 0.6553,
     "heading_mae_deg": 0.6,
-    "heading_rmse_deg": 0.92
+    "heading_rmse_deg": 0.92,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -218,20 +310,39 @@
     "speed_mae_ms": 2.7117,
     "speed_rmse_ms": 3.2126,
     "heading_mae_deg": 17.77,
-    "heading_rmse_deg": 23.12
+    "heading_rmse_deg": 23.12,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 10.0,
     "steps_evaluated": 100,
-    "final_position_error_m": 8.61,
-    "max_position_error_m": 81.76,
-    "mean_position_error_m": 35.26,
-    "speed_mae_ms": 3.9426,
-    "speed_rmse_ms": 4.3959,
+    "final_position_error_m": 15.55,
+    "max_position_error_m": 89.69,
+    "mean_position_error_m": 38.37,
+    "speed_mae_ms": 4.8918,
+    "speed_rmse_ms": 5.293,
     "heading_mae_deg": 17.77,
-    "heading_rmse_deg": 23.12
+    "heading_rmse_deg": 23.12,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3a",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 10.0,
+    "steps_evaluated": 100,
+    "final_position_error_m": 15.55,
+    "max_position_error_m": 89.69,
+    "mean_position_error_m": 38.37,
+    "speed_mae_ms": 4.8918,
+    "speed_rmse_ms": 5.293,
+    "heading_mae_deg": 17.77,
+    "heading_rmse_deg": 23.12,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 100
   },
   {
     "session": "IOVNBD_S3a",
@@ -244,7 +355,9 @@
     "speed_mae_ms": 2.6402,
     "speed_rmse_ms": 3.1533,
     "heading_mae_deg": 17.77,
-    "heading_rmse_deg": 23.12
+    "heading_rmse_deg": 23.12,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -257,7 +370,9 @@
     "speed_mae_ms": 0.794,
     "speed_rmse_ms": 0.9658,
     "heading_mae_deg": 0.61,
-    "heading_rmse_deg": 0.78
+    "heading_rmse_deg": 0.78,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -270,20 +385,39 @@
     "speed_mae_ms": 2.4517,
     "speed_rmse_ms": 2.8227,
     "heading_mae_deg": 20.75,
-    "heading_rmse_deg": 24.54
+    "heading_rmse_deg": 24.54,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 30.0,
     "steps_evaluated": 300,
-    "final_position_error_m": 69.09,
-    "max_position_error_m": 111.02,
-    "mean_position_error_m": 49.14,
-    "speed_mae_ms": 2.5525,
-    "speed_rmse_ms": 3.0289,
+    "final_position_error_m": 92.84,
+    "max_position_error_m": 130.87,
+    "mean_position_error_m": 60.78,
+    "speed_mae_ms": 2.6534,
+    "speed_rmse_ms": 3.3741,
     "heading_mae_deg": 20.75,
-    "heading_rmse_deg": 24.54
+    "heading_rmse_deg": 24.54,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3a",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 30.0,
+    "steps_evaluated": 300,
+    "final_position_error_m": 85.59,
+    "max_position_error_m": 123.87,
+    "mean_position_error_m": 58.37,
+    "speed_mae_ms": 2.8246,
+    "speed_rmse_ms": 3.5248,
+    "heading_mae_deg": 20.75,
+    "heading_rmse_deg": 24.54,
+    "adaptive_fallback_count": 56,
+    "adaptive_ai_count": 244
   },
   {
     "session": "IOVNBD_S3a",
@@ -296,7 +430,9 @@
     "speed_mae_ms": 2.5113,
     "speed_rmse_ms": 2.9121,
     "heading_mae_deg": 20.75,
-    "heading_rmse_deg": 24.54
+    "heading_rmse_deg": 24.54,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -309,7 +445,9 @@
     "speed_mae_ms": 0.6709,
     "speed_rmse_ms": 0.8318,
     "heading_mae_deg": 0.65,
-    "heading_rmse_deg": 0.82
+    "heading_rmse_deg": 0.82,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -322,20 +460,39 @@
     "speed_mae_ms": 2.739,
     "speed_rmse_ms": 2.963,
     "heading_mae_deg": 17.75,
-    "heading_rmse_deg": 20.27
+    "heading_rmse_deg": 20.27,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 60.0,
     "steps_evaluated": 600,
-    "final_position_error_m": 53.91,
-    "max_position_error_m": 121.36,
-    "mean_position_error_m": 52.59,
-    "speed_mae_ms": 2.3616,
-    "speed_rmse_ms": 2.6728,
+    "final_position_error_m": 91.38,
+    "max_position_error_m": 149.62,
+    "mean_position_error_m": 73.17,
+    "speed_mae_ms": 2.1,
+    "speed_rmse_ms": 2.6724,
     "heading_mae_deg": 17.75,
-    "heading_rmse_deg": 20.27
+    "heading_rmse_deg": 20.27,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3a",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 60.0,
+    "steps_evaluated": 600,
+    "final_position_error_m": 84.21,
+    "max_position_error_m": 141.89,
+    "mean_position_error_m": 68.4,
+    "speed_mae_ms": 2.1923,
+    "speed_rmse_ms": 2.7683,
+    "heading_mae_deg": 17.75,
+    "heading_rmse_deg": 20.27,
+    "adaptive_fallback_count": 57,
+    "adaptive_ai_count": 543
   },
   {
     "session": "IOVNBD_S3a",
@@ -348,7 +505,9 @@
     "speed_mae_ms": 2.918,
     "speed_rmse_ms": 3.1569,
     "heading_mae_deg": 17.75,
-    "heading_rmse_deg": 20.27
+    "heading_rmse_deg": 20.27,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -361,7 +520,9 @@
     "speed_mae_ms": 0.4346,
     "speed_rmse_ms": 0.6175,
     "heading_mae_deg": 0.73,
-    "heading_rmse_deg": 0.95
+    "heading_rmse_deg": 0.95,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -374,20 +535,39 @@
     "speed_mae_ms": 3.6914,
     "speed_rmse_ms": 4.2655,
     "heading_mae_deg": 22.44,
-    "heading_rmse_deg": 24.53
+    "heading_rmse_deg": 24.53,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
     "speed_mode": "AI_RATIO_DIAGNOSTIC",
     "outage_duration_s": 120.0,
     "steps_evaluated": 1200,
-    "final_position_error_m": 298.19,
-    "max_position_error_m": 301.36,
-    "mean_position_error_m": 112.72,
-    "speed_mae_ms": 3.3977,
-    "speed_rmse_ms": 4.1982,
+    "final_position_error_m": 312.56,
+    "max_position_error_m": 312.56,
+    "mean_position_error_m": 126.03,
+    "speed_mae_ms": 3.1924,
+    "speed_rmse_ms": 4.3123,
     "heading_mae_deg": 22.44,
-    "heading_rmse_deg": 24.53
+    "heading_rmse_deg": 24.53,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
+  },
+  {
+    "session": "IOVNBD_S3a",
+    "speed_mode": "ADAPTIVE_HYBRID_DIAGNOSTIC",
+    "outage_duration_s": 120.0,
+    "steps_evaluated": 1200,
+    "final_position_error_m": 309.63,
+    "max_position_error_m": 309.63,
+    "mean_position_error_m": 122.45,
+    "speed_mae_ms": 3.2364,
+    "speed_rmse_ms": 4.3415,
+    "heading_mae_deg": 22.44,
+    "heading_rmse_deg": 24.53,
+    "adaptive_fallback_count": 66,
+    "adaptive_ai_count": 1134
   },
   {
     "session": "IOVNBD_S3a",
@@ -400,7 +580,9 @@
     "speed_mae_ms": 3.8488,
     "speed_rmse_ms": 4.3427,
     "heading_mae_deg": 22.44,
-    "heading_rmse_deg": 24.53
+    "heading_rmse_deg": 24.53,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   },
   {
     "session": "IOVNBD_S3a",
@@ -413,6 +595,8 @@
     "speed_mae_ms": 0.3127,
     "speed_rmse_ms": 0.4839,
     "heading_mae_deg": 0.65,
-    "heading_rmse_deg": 0.96
+    "heading_rmse_deg": 0.96,
+    "adaptive_fallback_count": 0,
+    "adaptive_ai_count": 0
   }
 ]

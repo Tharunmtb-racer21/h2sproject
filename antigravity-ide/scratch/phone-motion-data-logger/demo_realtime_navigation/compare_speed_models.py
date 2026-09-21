@@ -89,13 +89,15 @@ def run_outage_benchmark(session_name="IOVNBD_S3c", speed_mode="PERSISTENCE_PROD
         "speed_rmse_ms": round(float(np.sqrt(np.mean(speed_errors**2))), 4) if len(speed_errors) > 0 else 0.0,
         "heading_mae_deg": round(float(np.mean(heading_errors)), 2) if len(heading_errors) > 0 else 0.0,
         "heading_rmse_deg": round(float(np.sqrt(np.mean(heading_errors**2))), 2) if len(heading_errors) > 0 else 0.0,
+        "adaptive_fallback_count": eng.adaptive_fallback_count,
+        "adaptive_ai_count": eng.adaptive_ai_count,
     }
 
 
 def run_full_suite():
     sessions = ["IOVNBD_S3c", "IOVNBD_S3a"]
     durations = [10.0, 30.0, 60.0, 120.0]
-    modes = ["PERSISTENCE_PRODUCTION", "AI_RATIO_DIAGNOSTIC", "DELTA_V_DIAGNOSTIC", "REFERENCE_DIAGNOSTIC"]
+    modes = ["PERSISTENCE_PRODUCTION", "AI_RATIO_DIAGNOSTIC", "ADAPTIVE_HYBRID_DIAGNOSTIC", "DELTA_V_DIAGNOSTIC", "REFERENCE_DIAGNOSTIC"]
     
     all_results = []
     print("======================================================================", flush=True)
@@ -106,12 +108,12 @@ def run_full_suite():
         print(f"\n--- SESSION: {session} ---", flush=True)
         for dur in durations:
             print(f"\nOutage Duration: {dur}s", flush=True)
-            print(f"{'Mode':<25} | {'Final Err (m)':<13} | {'Max Err (m)':<12} | {'Speed MAE (m/s)':<15} | {'Hdg MAE (deg)':<13}", flush=True)
+            print(f"{'Mode':<26} | {'Final Err (m)':<13} | {'Max Err (m)':<12} | {'Speed MAE (m/s)':<15} | {'Hdg MAE (deg)':<13}", flush=True)
             print("-" * 88, flush=True)
             for mode in modes:
                 res = run_outage_benchmark(session_name=session, speed_mode=mode, outage_start_s=100.0, duration_s=dur)
                 all_results.append(res)
-                print(f"{res['speed_mode']:<25} | {res['final_position_error_m']:<13.2f} | {res['max_position_error_m']:<12.2f} | {res['speed_mae_ms']:<15.4f} | {res['heading_mae_deg']:<13.2f}", flush=True)
+                print(f"{res['speed_mode']:<26} | {res['final_position_error_m']:<13.2f} | {res['max_position_error_m']:<12.2f} | {res['speed_mae_ms']:<15.4f} | {res['heading_mae_deg']:<13.2f}", flush=True)
                 
     output_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "outputs", "Exp_6_LSTM_AbsoluteSpeedRatio", "evaluation"))
     os.makedirs(output_dir, exist_ok=True)

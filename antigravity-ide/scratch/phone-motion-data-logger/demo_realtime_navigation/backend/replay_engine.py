@@ -91,7 +91,10 @@ class ReplayEngine:
         self._load_pytorch_model()
 
         # Model V2 (Bounded Absolute Speed Ratio r_t = v_t / v_anchor)
-        self.speed_mode = "PERSISTENCE_PRODUCTION" # PERSISTENCE_PRODUCTION, AI_RATIO_DIAGNOSTIC, DELTA_V_DIAGNOSTIC, REFERENCE_DIAGNOSTIC
+        self.speed_mode = "PERSISTENCE_PRODUCTION" # PERSISTENCE_PRODUCTION, AI_RATIO_DIAGNOSTIC, DELTA_V_DIAGNOSTIC, REFERENCE_DIAGNOSTIC, ADAPTIVE_HYBRID_DIAGNOSTIC
+        self.adaptive_fallback_count = 0
+        self.adaptive_ai_count = 0
+        self.adaptive_last_reason = "INIT"
         self.model_v2 = None
         self.model_v2_loaded = False
         self._load_model_v2()
@@ -279,6 +282,9 @@ class ReplayEngine:
         self.pre_outage_speed_cap = 30.0
         self.dr_imu_speed = 0.0
         self.dr_imu_speed_ema = 0.0
+        self.adaptive_fallback_count = 0
+        self.adaptive_ai_count = 0
+        self.adaptive_last_reason = "RESET"
 
     def set_playing(self, playing):
         self.is_playing = bool(playing)
@@ -421,6 +427,34 @@ class ReplayEngine:
             elif self.speed_mode == "REFERENCE_DIAGNOSTIC":
                 v_target = float(ref_speed_mps)
                 displayed_speed_source = "REFERENCE_DIAGNOSTIC (Ground Truth - EVAL ONLY)"
+            elif self.speed_mode == "ADAPTIVE_HYBRID_DIAGNOSTIC":
+                # Pure Outage Runtime Selection Policy (Zero GT Leakage)
+                yaw_rate_debiased_tmp = yaw_rate_raw - self.online_gyro_bias
+                if not self.model_v2_loaded or np.isnan(r_pred) or np.isinf(r_pred) or r_pred < 0.2 or r_pred > 2.5:
+                    v_target = v_anchor
+                    self.adaptive_fallback_count += 1
+                    self.adaptive_last_reason = "ANOMALY_FALLBACK_PERSISTENCE"
+                    displayed_speed_source = f"ADAPTIVE_HYBRID [PERSISTENCE fallback] (Model anomaly r={r_pred:.2f})"
+                elif v_anchor < 1.0:
+                    v_target = v_anchor
+                    self.adaptive_fallback_count += 1
+                    self.adaptive_last_reason = "LOW_SPEED_FALLBACK_PERSISTENCE"
+                    displayed_speed_source = f"ADAPTIVE_HYBRID [PERSISTENCE fallback] (Low anchor v={v_anchor:.2f}m/s)"
+                elif abs(yaw_rate_debiased_tmp) > 0.15:
+                    v_target = v_anchor
+                    self.adaptive_fallback_count += 1
+                    self.adaptive_last_reason = "HIGH_TURN_FALLBACK_PERSISTENCE"
+                    displayed_speed_source = f"ADAPTIVE_HYBRID [PERSISTENCE fallback] (High yaw turn={abs(yaw_rate_debiased_tmp):.3f}rad/s)"
+                elif v_anchor >= 5.0:
+                    v_target = r_pred * safe_anchor
+                    self.adaptive_ai_count += 1
+                    self.adaptive_last_reason = "MOTORWAY_AI_RATIO"
+                    displayed_speed_source = f"ADAPTIVE_HYBRID [AI_RATIO active] (r_pred={r_pred:.3f} * v_anchor={safe_anchor:.2f}m/s)"
+                else:
+                    v_target = v_anchor
+                    self.adaptive_fallback_count += 1
+                    self.adaptive_last_reason = "URBAN_PERSISTENCE"
+                    displayed_speed_source = f"ADAPTIVE_HYBRID [PERSISTENCE active] (Urban cruising v={v_anchor:.2f}m/s)"
             else:
                 v_target = v_anchor
                 displayed_speed_source = "PERSISTENCE_PRODUCTION (Fallback Baseline)"
@@ -532,6 +566,11 @@ class ReplayEngine:
             # Gyro Calibration State (for dashboard display)
             "gyro_bias": round(self.online_gyro_bias, 6),
             "yaw_scale": round(self.online_yaw_scale, 4),
+            
+            # Adaptive Hybrid Diagnostic Telemetry
+            "adaptive_fallback_count": self.adaptive_fallback_count,
+            "adaptive_ai_count": self.adaptive_ai_count,
+            "adaptive_last_reason": self.adaptive_last_reason,
             
             # Live trajectory snippet
             "current_dr_point": [round(active_east, 2), round(active_north, 2)],
