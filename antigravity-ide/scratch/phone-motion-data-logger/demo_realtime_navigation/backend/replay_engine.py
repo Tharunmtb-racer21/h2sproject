@@ -358,30 +358,16 @@ class ReplayEngine:
             v_anchor = self.outage_controller.anchor_speed_mps
             outage_elapsed = self.outage_controller.current_outage_elapsed_s
 
-            # --- Physics-Clamped Velocity Reconstruction ---
-            # LSTM predicts delta_v from anchor. Over long outages delta_v diverges from reality.
-            # Fix: blend AI estimate with IMU-integrated speed, apply pre-outage speed cap.
-
-            # 1a. Raw LSTM velocity estimate
+            # 1. Physics-Clamped AI Velocity Estimation
+            # PyTorch Exp_5 LSTM model predicts delta_v from pre-outage anchor speed v_anchor
             v_raw_ai = max(0.0, v_anchor + pred_delta_v)
 
-            # 1b. IMU forward speed integration (independent of AI model)
-            # Clamp accel to avoid gravity contamination from phone tilt
+            # Cap velocity to plausible pre-outage vehicle speed upper bound
+            v_reconstructed = float(np.clip(v_raw_ai, 0.0, self.pre_outage_speed_cap))
+
+            # EKF Velocity Smoothing with forward acceleration
             a_clamped = float(np.clip(accel_x, -4.0, 4.0))
-            self.dr_imu_speed = max(0.0, self.dr_imu_speed + a_clamped * dt_step)
-            self.dr_imu_speed_ema = 0.3 * self.dr_imu_speed + 0.7 * self.dr_imu_speed_ema
-
-            # 1c. Soft anchor decay: as outage lengthens, blend toward IMU-integrated speed
-            # Exponential decay with tau=30s keeps AI dominant for short outages
-            decay_tau = 30.0
-            anchor_weight = float(np.exp(-outage_elapsed / decay_tau))
-            v_blended = anchor_weight * v_raw_ai + (1.0 - anchor_weight) * self.dr_imu_speed_ema
-
-            # 1d. Hard physics cap: cannot exceed 1.5x pre-outage 90th-percentile speed
-            v_capped = float(np.clip(v_blended, 0.0, self.pre_outage_speed_cap))
-
-            # 1e. EKF Velocity Fusion (AI model + IMU accel)
-            v_fused = self.ekf.step(a_forward=a_clamped, v_ai_pred=v_capped, dt=dt_step)
+            v_fused = self.ekf.step(a_forward=a_clamped, v_ai_pred=v_reconstructed, dt=dt_step)
             v_reconstructed = float(np.clip(v_fused, 0.0, self.pre_outage_speed_cap))
 
             # 2. Pure Physical IMU Multi-Signal ZUPT (Zero velocity leakage)
