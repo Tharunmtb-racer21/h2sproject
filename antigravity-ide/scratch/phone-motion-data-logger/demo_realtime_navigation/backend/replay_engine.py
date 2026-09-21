@@ -358,12 +358,9 @@ class ReplayEngine:
             v_anchor = self.outage_controller.anchor_speed_mps
             outage_elapsed = self.outage_controller.current_outage_elapsed_s
 
-            # 1. Physics-Clamped AI Velocity Estimation
-            # PyTorch Exp_5 LSTM model predicts delta_v from pre-outage anchor speed v_anchor
-            v_raw_ai = max(0.0, v_anchor + pred_delta_v)
-
-            # Cap velocity to plausible pre-outage vehicle speed upper bound
-            v_reconstructed = float(np.clip(v_raw_ai, 0.0, self.pre_outage_speed_cap))
+            # 1. Production Velocity Baseline: Constant-Speed Persistence + EKF / ZUPT
+            # AI Delta-V model inference executed for diagnostic logging; production speed uses anchor persistence
+            v_reconstructed = float(v_anchor)
 
             # EKF Velocity Smoothing with forward acceleration
             a_clamped = float(np.clip(accel_x, -4.0, 4.0))
@@ -385,8 +382,7 @@ class ReplayEngine:
                 self.dr_imu_speed = 0.0
                 self.dr_imu_speed_ema = 0.0
 
-
-            # 3. Advance 2D kinematic position using AI velocity + Gyro yaw rate (bias + scale corrected)
+            # 3. Advance 2D kinematic position using Persistence velocity + Gyro yaw rate (bias + scale corrected)
             # Apply: bias removal → scale correction → EMA smoothing → physical clamp
             yaw_rate_debiased = yaw_rate_raw - self.online_gyro_bias
             yaw_rate_scaled = yaw_rate_debiased * self.online_yaw_scale
@@ -417,9 +413,9 @@ class ReplayEngine:
             nav_mode = "AI_DEAD_RECKONING" if outage_status["outage_active"] else "GNSS_RESTORE_BLENDING"
             displayed_speed_mps = v_reconstructed
             displayed_speed_kmh = v_reconstructed * 3.6
-            displayed_speed_source = "AI_ESTIMATED (PyTorch Exp_5 LSTM Delta-V Forward Pass)"
-            ai_speed_mps = v_reconstructed
-            ai_speed_kmh = v_reconstructed * 3.6
+            displayed_speed_source = "PERSISTENCE_ANCHOR (Last GNSS Speed + Gyro Kinematics + ZUPT)"
+            ai_speed_mps = max(0.0, v_anchor + pred_delta_v)
+            ai_speed_kmh = ai_speed_mps * 3.6
 
         # Append to live DR trail
         if len(self.cached_dr_path) == 0 or self.current_index % 2 == 0:
